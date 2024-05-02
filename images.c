@@ -4,7 +4,7 @@
 #define MAXCOL 500
 #define MAXROW 500
 void loadimage(int imagearray[][MAXCOL], int* rowptr, int* colptr);
-void displayimage();
+void displayimage(int imagearray[][MAXCOL], int row, int col);
 void editimage();
 void cropimage();
 void brightenimage();
