@@ -55,31 +55,13 @@ void loadimage(int imagearray[][MAXCOL], int *rownumptr, int *colnumptr){
     	}
     	else{
     		while(fscanf(filepointer, "%d", &imagearray[rownum][colnum]) == 1){
-    	 while(fscanf(filepointer, "%d", &imagearray[rownum][colnum]) == 1){
-            colnum++;
-            if (colnum >= MAXCOL) {
-                // Handle case where column exceeds the maximum
-                printf("Number of columns exceeds the maximum limit.\n");
-                break;
-            }
-            if (colnum == *colnumptr) {
-                // Update the number of columns
-                *colnumptr = colnum + 1;
-            }
-            if (colnum == 0) {
-                // Reset column count for each new row
-                rownum++;
-            }
-            if (rownum >= MAXROW) {
-                // Handle case where row exceeds the maximum
-                printf("Number of rows exceeds the maximum limit.\n");
-                break;
-            }
-        }
-        // Update the number of rows
-        *rownumptr = rownum + 1;
-    }
-}
+    			rownum++;
+    			colnum++;
+ 
+    		}
+    	}
+    	*rownumptr = rownum;
+    	*colnumptr = colnum;
     	fclose(filepointer);
 }
 void displayimage(int rows, int cols, int imagearray[][cols]){
