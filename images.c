@@ -68,9 +68,23 @@ void loadimage(int* rowptr, int* colptr, int imagearray[][MAXCOL]){
 }
 
 void displayimage(int rows, int cols, int imagearray[][cols]){
-
+	int output_file;
+	if(output_file == NULL) {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                printf("%d ", imagearray[i][j]);
+            }
+            printf("\n");
+        }
+        } else {
+       		 for(int i = 0; i < rows; i++) {
+           	 for(int j = 0; j < cols; j++) {
+              	  fprintf(output_file, "%d ", imagearray[i][j]);
+         	   }
+            fprintf(output_file, "\n");
+       	 }
+    }
 }
-
 void editimage(){
 
 }
