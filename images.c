@@ -7,8 +7,8 @@
 void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownumptr, int *colnumptr);
 void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][cols]);
 void displayimage(FILE* fptr, char filename[], int rows, int cols, int imagearray[][cols]);
-void editimage();
-void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]);
+void editimage(int choice, int imagearray[][MAXCOL], int rownum, int colnum);
+void cropImage(int imagearray[][MAXCOL], int rownum, int colnum);
 void brightenimage();
 void dimimage();
 void rotateimage();
@@ -19,7 +19,7 @@ int main(){
 	FILE* fileptr;
 	char filename[MAXSIZE];
 	int row, col;
-	int user_choice;
+	int user_choice, edit_choice;
 	
 	do{
 	printf("MENU\n");
@@ -39,7 +39,7 @@ int main(){
 		displayimage(fileptr, filename, row, col, image);
 		break;
 		case 3:
-		//edit menu 
+		editimage(edit_choice, image, row, col);
 		break;
 		case 0:
 		printf("\nGoodbye!\n\n");
@@ -125,29 +125,58 @@ void displayimage(FILE* fptr, char filename[], int rows, int cols, int imagearra
 	printf("\n");
 }
 
-void editimage(){
-
+void editimage(int choice, int imagearray[][MAXCOL], int rownum, int colnum){
+	printf("**EDITING**\n");
+	printf("1: Crop image\n");
+	printf("2: Dim image\n");
+	printf("3: Brighten image\n");
+	printf("0: Return to main menu\n");
+	printf("\nChoose from one of the options above:");
+	scanf("%d", &choice);
+	switch(choice){
+		case 1:
+		cropImage(imagearray, rownum, colnum);
+		break;
+		case 2:
+		//dim image function
+		break;
+		case 3:
+		//brighten image function
+		break;
+		case 0:
+		return;
+		}
 }
 
-void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]){
-	FILE *file;
-	char ch;
-	file = fopen("test_image.txt", "a");
-	if(file == NULL){
-		print("Error opening file");
-return EXIT_FAILURE;
-	}
-	while((ch = fgetc(file)) != EOF){//i dont know what else to use instead of eof
-	fclose(file);
-return 0;
-}
-	printf("Enter the new dimensions of your image: (Height Width)\n", cropHeight, cropWidth);
-	scanf("%d, %d", &cropHeight, &cropWidth);
-	for(int i = 0; i < cropHeight; i++){
-	for(int j = 0; j < cropWidth; j++){
-	image[i][j] = crop[i + a][j + b];
-	}
-}
+void cropImage(int imagearray[][MAXCOL], int rownum, int colnum){
+    int row1, col1, row2, col2;
+
+    // Ask the user for two rows and two columns
+    printf("The image you want to crop is %d X %d.\n", rownum, colnum);
+    printf("The row and column values start in the upper lefthand corner.\n\n");
+    printf("\n Which column do you want to be the new left side?");
+    scanf("%d", &col1);
+    printf("\nWhich column do you want to be the right side?");
+    scanf("%d", &col2);
+    printf("\nWhich row do you want to be the new top?");
+    scanf("%d", &row1);
+    printf("\nWhich row do you want to be the new bottom?");
+    scanf("%d", &row2);
+
+    // Ensure the coordinates are within bounds
+    if (row1 < 0 || row1 >= rownum || col1 < 0 || col1 >= colnum ||
+        row2 < 0 || row2 >= rownum || col2 < 0 || col2 >= colnum) {
+        printf("Invalid coordinates. Please enter coordinates within the image dimensions.\n");
+        return;
+    }
+
+    // Crop the image
+    for (int i = row1; i <= row2; i++) {
+        for (int j = col1; j <= col2; j++) {
+            printf("%d ", imagearray[i][j]); // Print the cropped pixel
+        }
+        printf("\n");
+    }
 }
 
 void brightenimage(){
