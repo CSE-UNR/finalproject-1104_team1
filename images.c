@@ -23,13 +23,13 @@ int main(){
 	
 	do{
 	printf("MENU\n");
-	printf("1. Load Image\n");
-	printf("2. Display Image\n");
-	printf("3. Edit Image\n");
-	printf("4. Exit\n");
-	printf("What would you like to do?");
+	printf("1: Load Image\n");
+	printf("2: Display Image\n");
+	printf("3: Edit Image\n");
+	printf("0: Exit\n");
+	printf("\nChoose from one of the options above:");
 	scanf("%d", &user_choice);
-	printf("\n");
+
 	switch(user_choice){
 		case 1:
 		loadimage(fileptr, filename, image, &row, &col);
@@ -41,12 +41,13 @@ int main(){
 		case 3:
 		//edit menu 
 		break;
-		case 4:
+		case 0:
+		printf("\nGoodbye!\n\n");
 		return 0;
 		default:
 		printf("Invalid Option\n\n");
 	}
-	}while(user_choice != '4');
+	}while(user_choice != '0');
 	return 0;
 }
 
@@ -56,12 +57,12 @@ void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownu
 	int colnum = 0;
 	char num;
  
-	printf("Enter the name of the image file: ");
+	printf("What is the name of the image file? ");
     	scanf("%s", filename);
 
     	fptr = fopen(filename, "r");
    	if (fptr == NULL){
-        	printf("File does not exist.\n");
+        	printf("Could not find an image with that filename.\n");
     	}
     	else{
     		while(fscanf(fptr, "%c", &num) == 1){
@@ -78,6 +79,7 @@ void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownu
   	*rownumptr = rownum;
     	fclose(fptr);
     	printf("\n");
+    	printf("Image successfully loaded!\n\n");
 }
 void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][cols]){
 
