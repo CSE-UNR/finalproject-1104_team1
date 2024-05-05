@@ -130,6 +130,17 @@ void editimage(){
 }
 
 void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]){
+	FILE *file;
+	char ch;
+	file = fopen("test_image.txt", "a");
+	if(file == NULL){
+		print("Error opening file");
+return EXIT_FAILURE;
+	}
+	while((ch = fgetc(file)) != EOF){//i dont know what else to use instead of eof
+	fclose(file);
+return 0;
+}
 	printf("Enter the new dimensions of your image: (Height Width)\n", cropHeight, cropWidth);
 	scanf("%d, %d", &cropHeight, &cropWidth);
 	for(int i = 0; i < cropHeight; i++){
