@@ -130,7 +130,7 @@ void editimage(){
 }
 
 void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]){
-	printf("Enter the new dimensions of your image: %d %d(Height Width)", cropHeight, cropWidth);
+	printf("Enter the new dimensions of your image: (Height Width)\n", cropHeight, cropWidth);
 	scanf("%d, %d", &cropHeight, &cropWidth);
 	for(int i = 0; i < cropHeight; i++){
 	for(int j = 0; j < cropWidth; j++){
