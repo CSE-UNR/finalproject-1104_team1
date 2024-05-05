@@ -8,7 +8,7 @@ void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownu
 void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][cols]);
 void displayimage(FILE* fptr, char filename[], int rows, int cols, int imagearray[][cols]);
 void editimage();
-void cropimage();
+void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]);
 void brightenimage();
 void dimimage();
 void rotateimage();
@@ -129,7 +129,7 @@ void editimage(){
 
 }
 
-void cropimage(FILE* fptr, int cropHeight int cropWidth, int image[][MAXCOL], int a, int b, int crop[i][j]){
+void cropimage(FILE* fptr, int cropHeight, int cropWidth, int image[][MAXCOL], int a, int b, int crop[][MAXCOL]){
 	for(int i = 0; i < cropHeight; i++){
 	for(int j = 0; j < cropWidth; j++){
 	image[i][j] = crop[i + a][j + b];
