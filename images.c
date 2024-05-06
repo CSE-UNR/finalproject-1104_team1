@@ -12,7 +12,6 @@ void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL]
 void cropImage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]);
 void displaycropimage(int croppedRows, int croppedcols, int croppedArray[][MAXCOL]);
 void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]);
-void rotateimage();
 void saveimagefile(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXCOL]);
 void savecropimage(FILE* fptr, char filename[], int croppedRows, int croppedCols, int croppedArray[][MAXCOL]);
 
@@ -25,31 +24,32 @@ int main(){
 	int croparray[MAXROW][MAXCOL];
 	
 	do{
-	printf("MENU\n");
-	printf("1: Load Image\n");
-	printf("2: Display Image\n");
-	printf("3: Edit Image\n");
-	printf("0: Exit\n");
-	printf("\nChoose from one of the options above:");
-	scanf("%d", &user_choice);
+		printf("**ERINSTAGRAM**\n");
+		printf("1: Load Image\n");
+		printf("2: Display Image\n");
+		printf("3: Edit Image\n");
+		printf("0: Exit\n");
+		printf("\nChoose from one of the options above:");
+		scanf("%d", &user_choice);
+		printf("\n\n");
 
-	switch(user_choice){
-		case 1:
-		loadimage(fileptr, filename, image, &row, &col);
-		save(fileptr, filename, row, col, image);
-		break;
-		case 2:
-		displayimage(row, col, image);
-		break;
-		case 3:
-		editimage(fileptr, filename, edit_choice, image, row, col, croparray, &croprows, &cropcols);
-		break;
-		case 0:
-		printf("\nGoodbye!\n\n");
-		return 0;
-		default:
-		printf("Invalid Option\n\n");
-	}
+		switch(user_choice){
+			case 1:
+				loadimage(fileptr, filename, image, &row, &col);
+				save(fileptr, filename, row, col, image);
+				break;
+			case 2:
+				displayimage(row, col, image);
+				break;
+			case 3:
+				editimage(fileptr, filename, edit_choice, image, row, col, croparray, &croprows, &cropcols);
+				break;
+			case 0:
+				printf("\nGoodbye!\n\n");
+				return 0;
+			default:
+				printf("Invalid Option\n\n");
+		}
 	}while(user_choice != '0');
 	return 0;
 }
@@ -68,20 +68,22 @@ void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownu
         	printf("Could not find an image with that filename.\n");
         	return;
     	}
-    		while(fscanf(fptr, "%c", &num) == 1){
-    			if(num >= '0' && num <= '4'){
-    				imagearray[rownum][colnum++] = num;
-    			}else if (num == '\n'){
-    				if(rownum == 0){
-					*colnumptr = colnum;
-				}
-				rownum++;
+    	while(fscanf(fptr, "%c", &num) == 1){
+    		if(num >= '0' && num <= '4'){
+    			imagearray[rownum][colnum++] = num;
+    		}else if (num == '\n'){
+    			if(rownum == 0){
+				*colnumptr = colnum;
 			}
+			rownum++;
 		}
+	}
    	
   	*rownumptr = rownum;
     	fclose(fptr);
+    	printf("\nImage successfully loaded!\n\n");
 }
+
 void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXCOL]){
 
 	fptr = fopen(filename, "r");
@@ -99,24 +101,25 @@ void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXC
 }
 
 void displayimage(int rows, int cols, int imagearray[][MAXCOL]){
+
 	for(int rowI = 0; rowI < rows; rowI++){
 		for(int colI = 0; colI < cols; colI++){
 			switch(imagearray[rowI][colI]){
-			case 0:
-			printf(" ");
-			break;
-			case 1:
-			printf(".");
-			break;
-			case 2:
-			printf("o");
-			break;
-			case 3:
-			printf("O");
-			break;
-			case 4:
-			printf("0");
-			break;
+				case 0:
+					printf(" ");
+					break;
+				case 1:
+					printf(".");
+					break;
+				case 2:
+					printf("o");
+					break;
+				case 3:
+					printf("O");
+					break;
+				case 4:
+					printf("0");
+					break;
 			}
 			if(colI == cols - 1){
 				printf("\n");
@@ -127,6 +130,7 @@ void displayimage(int rows, int cols, int imagearray[][MAXCOL]){
 }
 
 void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL], int rownum, int colnum, int croppedArray[][MAXCOL], int *croppedRows, int *croppedCols){
+
 	printf("**EDITING**\n");
 	printf("1: Crop image\n");
 	printf("2: Dim image\n");
@@ -136,25 +140,26 @@ void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL]
 	scanf("%d", &choice);
 	switch(choice){
 		case 1:
-		cropImage(imagearray, rownum, colnum, fptr, filename, croppedRows,croppedCols, croppedArray);
-		savecropimage(fptr, filename, *croppedRows, *croppedCols, croppedArray);
-		break;
+			cropImage(imagearray, rownum, colnum, fptr, filename, croppedRows,croppedCols, croppedArray);
+			savecropimage(fptr, filename, *croppedRows, *croppedCols, croppedArray);
+			break;
 		case 2:
-		dimimage(rownum, colnum, imagearray);
-		displayimage(rownum, colnum, imagearray);
-		saveimagefile(fptr, filename, rownum, colnum, imagearray);
-		break;
+			dimimage(rownum, colnum, imagearray);
+			displayimage(rownum, colnum, imagearray);
+			saveimagefile(fptr, filename, rownum, colnum, imagearray);
+			break;
 		case 3:
-		brightenimage(rownum, colnum, imagearray);
-		displayimage(rownum, colnum, imagearray);
-		saveimagefile(fptr, filename, rownum, colnum, imagearray);
-		break;
+			brightenimage(rownum, colnum, imagearray);
+			displayimage(rownum, colnum, imagearray);
+			saveimagefile(fptr, filename, rownum, colnum, imagearray);
+			break;
 		case 0:
-		return;
-		}
+			return;
+	}
 }
 
 void cropImage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, 		char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]){
+
 	int row1, col1, row2, col2;
     	int croprow, cropcol;
 	displayimage(rownum, colnum, imagearray);
@@ -191,24 +196,25 @@ void cropImage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, 		c
 
 
 void displaycropimage(int croppedRows, int croppedCols, int croppedArray[][MAXCOL]){
+
 	for(int rowI = 0; rowI < croppedRows; rowI++){
         	for(int colI = 0; colI < croppedCols; colI++){
             		switch(croppedArray[rowI][colI]){
-			case 0:
-			printf(" ");
-			break;
-			case 1:
-			printf(".");
-			break;
-			case 2:
-			printf("o");
-			break;
-			case 3:
-			printf("O");
-			break;
-			case 4:
-			printf("0");
-			break;
+				case 0:
+					printf(" ");
+					break;
+				case 1:
+					printf(".");
+					break;
+				case 2:
+					printf("o");
+					break;
+				case 3:
+					printf("O");
+					break;
+				case 4:
+					printf("0");
+					break;
 			}
 			if(colI == croppedCols - 1){
 				printf("\n");
@@ -217,12 +223,8 @@ void displaycropimage(int croppedRows, int croppedCols, int croppedArray[][MAXCO
 	}
 }	
 
-
-
-
-
-
 void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]){
+
 	for(int i = 0; i < rownum; i++){
 		for(int j = 0; j < colnum; j++){
 			if(imagearray[i][j] < 4){
@@ -233,6 +235,7 @@ void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]){
 }
 
 void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]){
+
 	for(int i = 0; i < rownum; i++){
 		for(int j = 0; j < colnum; j++){
 			if(imagearray[i][j] > 0){
@@ -242,19 +245,14 @@ void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]){
 	}
 }
 
-void rotateimage(){
-
-}
-
-
 void saveimagefile(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXCOL]){
+
 	char choice;
-	printf("Would you like to save? (Y/N)");
+	printf("Would you like to save? (y/n)");
 	scanf(" %c", &choice);
 	if(choice == 'y' || choice == 'Y'){
-		printf("Enter the name of the file:");
+		printf("What do you want to name the image file?(include the extension)");
 		scanf("%s", filename);
-		
 		fptr = fopen(filename, "w");
 		for(int rowI = 0; rowI < rows; rowI++){
 			for(int colI = 0; colI < cols; colI++){
@@ -264,20 +262,21 @@ void saveimagefile(FILE* fptr, char filename[], int rows, int cols, int imagearr
 		}
 		
 		fclose(fptr);
+		printf("\nImage successfully saved!\n\n");
 	}
 	else{
 		return;
-		}
+	}
 }
 
 void savecropimage(FILE* fptr, char filename[], int croppedRows, int croppedCols, int croppedArray[][MAXCOL]){
+
 	char choice;
-	printf("Would you like to save? (Y/N)");
+	printf("Would you like to save the file? (y/n)");
 	scanf(" %c", &choice);
 	if(choice == 'y' || choice == 'Y'){
-		printf("Enter the name of the file:");
+		printf("What do you want to name the image file?(include the extension)");
 		scanf("%s", filename);
-		
 		fptr = fopen(filename, "w");
 		for(int rowI = 0; rowI < croppedRows; rowI++){
 			for(int colI = 0; colI < croppedCols; colI++){
@@ -287,10 +286,11 @@ void savecropimage(FILE* fptr, char filename[], int croppedRows, int croppedCols
 		}
 		
 		fclose(fptr);
+		printf("\nImage successfully saved!\n\n");
 	}
 	else{
 		return;
-		}
+	}
 }
 	
 
