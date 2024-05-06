@@ -6,12 +6,12 @@
 #define MAXSIZE 500
 void loadimage(FILE* fptr, char filename[], int imagearray[][MAXCOL], int *rownumptr, int *colnumptr);
 void save(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXCOL]);
-void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]);
 void displayimage(int rows, int cols, int imagearray[][MAXCOL]);
 void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL], int rownum, int colnum, int croppedArray[][MAXCOL], int *croppedRows, int *croppedCols);
-void cropImage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]);
+void cropimage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]);
 void displaycropimage(int croppedRows, int croppedcols, int croppedArray[][MAXCOL]);
 void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]);
+void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]);
 void saveimagefile(FILE* fptr, char filename[], int rows, int cols, int imagearray[][MAXCOL]);
 void savecropimage(FILE* fptr, char filename[], int croppedRows, int croppedCols, int croppedArray[][MAXCOL]);
 
@@ -140,7 +140,7 @@ void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL]
 	scanf("%d", &choice);
 	switch(choice){
 		case 1:
-			cropImage(imagearray, rownum, colnum, fptr, filename, croppedRows,croppedCols, croppedArray);
+			cropimage(imagearray, rownum, colnum, fptr, filename, croppedRows,croppedCols, croppedArray);
 			savecropimage(fptr, filename, *croppedRows, *croppedCols, croppedArray);
 			break;
 		case 2:
@@ -158,7 +158,7 @@ void editimage(FILE* fptr, char filename[], int choice, int imagearray[][MAXCOL]
 	}
 }
 
-void cropImage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, 		char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]){
+void cropimage(int imagearray[][MAXCOL], int rownum, int colnum, FILE *fptr, 		char filename[], int *croppedRows, int *croppedCols, int croppedArray[][MAXCOL]){
 
 	int row1, col1, row2, col2;
     	int croprow, cropcol;
@@ -223,23 +223,24 @@ void displaycropimage(int croppedRows, int croppedCols, int croppedArray[][MAXCO
 	}
 }	
 
-void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]){
 
-	for(int i = 0; i < rownum; i++){
-		for(int j = 0; j < colnum; j++){
-			if(imagearray[i][j] < 4){
-				imagearray[i][j]++;
+void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]){
+
+	for(int rowI = 0; rowI < rownum; rowI++){
+		for(int colI = 0; colI < colnum; colI++){
+			if(imagearray[rowI][colI] > 0){
+				imagearray[rowI][colI]--;
 			}
 		}
 	}
 }
 
-void dimimage(int rownum, int colnum, int imagearray[][MAXCOL]){
+void brightenimage(int rownum, int colnum, int imagearray[][MAXCOL]){
 
-	for(int i = 0; i < rownum; i++){
-		for(int j = 0; j < colnum; j++){
-			if(imagearray[i][j] > 0){
-				imagearray[i][j]--;
+	for(int rowI = 0; rowI < rownum; rowI++){
+		for(int colI = 0; colI < colnum; colI++){
+			if(imagearray[rowI][colI] < 4){
+				imagearray[rowI][colI]++;
 			}
 		}
 	}
