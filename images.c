@@ -1,4 +1,6 @@
 //Author: Sergio Jackson, Brysen Ross
+//Due Date: 5/7/24
+//Final Project: Image Processing
 
 #include <stdio.h>
 #define MAXCOL 500
